@@ -7,6 +7,11 @@ try:
 except:
 	print("package not found")
 
+## ISSUES ##
+
+# make shortkeys work
+# tabs ?!
+
 ## vars ##
 
 ide_name = "Simple IDE"
@@ -27,17 +32,17 @@ lightgreen = "#43FF00"
 def plain_theme():
 	global textarea
 	print("plain_theme used")
-	textarea.configure(bg="white", fg="black")
+	textarea.configure(bg="white", fg="black", insertbackground="black")
 
 def dark_theme():
 	global textarea
 	print("dark_theme used")
-	textarea.configure(bg="black", fg="white")
+	textarea.configure(bg="black", fg="white", insertbackground="white")
 
 def hacker_theme():
 	global textarea
 	print("hacker_theme used")
-	textarea.configure(bg="black", fg=lightgreen)
+	textarea.configure(bg="black", fg=lightgreen, insertbackground=lightgreen)
 
 ## functions ##
 
@@ -57,8 +62,6 @@ def save():
 	print("save file")
 	global textarea, varfile
 	text = textarea.get("1.0","end-1c")
-	print(text, "\n")
-	print(varfile, "\n")
 	file = open(varfile, "w+")
 	file.write(text)
 	file.close()
@@ -68,9 +71,12 @@ def openfile():
 	print("open file")
 	file = askopenfilename(parent=root)
 	f = open(file)
-	textarea.Text = f.read()
-	varfile = file
+	f = f.read()
 
+	textarea.delete(1.0, END)
+	textarea.insert(END, f)
+
+	varfile = file
 	root.title(file + " " + ide_name)
 
 def newfile():

@@ -3,13 +3,14 @@ try:
 	import tkinter
 	from tkinter import *
 	from tkinter import filedialog
+	from tkinter import messagebox
 	from tkinter.filedialog import askopenfilename
 except:
 	print("package not found")
 
 ## ISSUES ##
 
-# make shortkeys work
+# shortcuts work but not ctrl+shift+s or save as ;/
 # tabs ?!
 
 ## vars ##
@@ -46,7 +47,7 @@ def hacker_theme():
 
 ## functions ##
 
-def saveasdoc():
+def saveasdoc(event=""):
 	print("saveas file")
 	global textarea, varfile
 	text = textarea.get("1.0","end-1c")
@@ -55,18 +56,20 @@ def saveasdoc():
 	file = open(location, "w+")
 	file.write(text)
 	file.close()
-	tit = location + " " + ide_name
-	root.title(tit)
+	root.title(location + " " + ide_name)
 
-def save():
+def save(event=""):
 	print("save file")
 	global textarea, varfile
 	text = textarea.get("1.0","end-1c")
-	file = open(varfile, "w+")
+	try:
+		file = open(varfile, "w+")
+	except:
+		tkinter.messagebox.showinfo(title="Error",message="Did you save this file?")
 	file.write(text)
 	file.close()
 
-def openfile():
+def openfile(event=""):
 	global textarea, varfile
 	print("open file")
 	file = askopenfilename(parent=root)
@@ -79,7 +82,7 @@ def openfile():
 	varfile = file
 	root.title(file + " " + ide_name)
 
-def newfile():
+def newfile(event=""):
 	print("new file")
 
 def key(event):
@@ -96,10 +99,10 @@ root.title("*unsaved %s" % ide_name)
 
 # shortkeys
 root.bind("<Key>", key)
-root.bind("<Control-Shift-S>", saveasdoc)
-root.bind("<Control-S>", save)
-root.bind("<Control-O>", openfile)
-root.bind("<Control-N>", newfile)
+root.bind("<Control-Shift-s>", saveasdoc)
+root.bind("<Control-s>", save)
+root.bind("<Control-o>", openfile)
+root.bind("<Control-n>", newfile)
 
 # creating our menu
 

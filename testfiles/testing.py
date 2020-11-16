@@ -1,4 +1,6 @@
 
+print("i am testing")
+
 def testfunc(x):
 	x+=10
 	return x
